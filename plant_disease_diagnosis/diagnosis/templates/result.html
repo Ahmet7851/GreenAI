@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Teşhis Sonucu</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 2rem;
+            color: #333;
+        }
+
+        img {
+            max-width: 80%;
+            margin: 2rem 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        p {
+            text-align: center;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        a {
+            display: inline-block;
+            background-color: #4CAF50;
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 4px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        a:hover {
+            background-color: #45a049;
+        }
+
+        @media (max-width: 500px) {
+            img {
+                max-width: 95%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Teşhis Sonucu</h1>
+    <img src="{{ image_path }}" alt="Yüklenen Görüntü">
+    <p>{{ prediction }}</p>
+    <a href="{% url 'home' %}">Yeni Fotoğraf Yükle</a>
+</body>
+</html>

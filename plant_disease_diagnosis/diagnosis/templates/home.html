@@ -1,10 +1,52 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Bitki Hastalığı Teşhis</title>
+    <title >Bitki Hastalığı Teşhis et</title>
     <style>
+        .navbar {
+            width: calc(100% - 3rem);
+            background-color: #1a1a2e;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar a {
+            color: rgb(255, 255, 255);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            font-weight: bold;
+            font-size: 1rem;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .navbar a:hover {
+            background-color: #e94560;
+            border-radius: 4px;
+            color: white;
+        }
+
+        .navbar img {
+            height: 50px;
+            width: 70px;
+        }
+
+        .navbar .logo-link:hover {
+            background-color: transparent;
+            color: inherit;
+        }
+
         body {
-            font-family: sans-serif;
+            background-image: url('/media/arkaplan-2.jpg');
+            background-repeat: no-repeat;
+            background-attachment: scroll;
+            background-size: 100% 100%;
+            font-family: 'Roboto', sans-serif;
             margin: 0;
             padding: 0;
             background-color: #f4f4f4;
@@ -16,29 +58,67 @@
 
         h1 {
             text-align: center;
-            margin-top: 2rem;
-            color: #333;
+            margin-top: 6rem;
+            color: #25261e;
+            font-weight: 300;
+            font-size: 40px;
         }
 
-        form {
-            background-color: #fff;
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content : center;
+            margin-top: 2rem;
+            margin-bottom: 17rem;
+            margin-left: 4rem;
+            
+            
+            padding: 1rem; /* Reduced padding */
+            border-radius: 8px;
+          
+            height: 80%;
+            max-height: 80000px;
+            width: 80%; /* Added width to constrain container size */
+            max-width: 1000px; /* Added max-width to constrain the container size on larger screens */
+
+        }
+
+        .box {
+            background-color: #fffdd06a;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin: 1rem;
             padding: 2rem;
-            width: 90%;
-            max-width: 500px;
+            width: 300px;
+            box-sizing: border-box;
         }
 
-        label {
-            display: block;
-            margin-bottom: 0.5rem;
+        .box h2 {
+            margin-top: 0;
             color: #333;
+        }
+
+        .box p {
+            color: #080808;
+        }
+
+        .box ul {
+            padding-left: 20px;
+        }
+
+        .box ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .box img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
         }
 
         .file-input-wrapper {
             position: relative;
             width: 100%;
-            max-width: 500px;
         }
 
         .file-input-wrapper input[type="file"] {
@@ -54,16 +134,17 @@
             box-sizing: border-box;
             font-size: 1rem;
             text-align: center;
-            background-color: #fff;
+            background-color: #4CAF50;
+            color: white;
             cursor: pointer;
         }
 
         .file-input-label:hover {
-            background-color: #f0f0f0;
+            background-color: #45a049;
         }
 
         button[type="submit"] {
-            background-color: #4CAF50;
+            background-color: #156a18;
             color: white;
             padding: 1rem 2rem;
             border: none;
@@ -76,25 +157,103 @@
         }
 
         button[type="submit"]:hover {
-            background-color: #45a049;
+            background-color: hsl(124, 94%, 6%);
         }
 
-        @media (max-width: 500px) {
-            form {
-                width: 95%;
+        .popup {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background-color: rgba(76, 175, 80, 0.9);
+            color: white;
+            padding: 1rem;
+            border-radius: 4px;
+            display: none;
+            z-index: 1000;
+        }
+
+        .popup.error {
+            background-color: rgba(255, 0, 0, 0.9);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                align-items: center;
+                padding: 1rem;
+                width: 90%; /* Adjusted width for smaller screens */
+            }
+
+            .box {
+                width: 90%;
             }
         }
     </style>
 </head>
 <body>
-    <h1>Bitki Hastalığı Teşhis</h1>
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        <div class="file-input-wrapper">
-            <label class="file-input-label" for="id_image">Dosya Seç</label>
-            {{ form.image }}
+    <div class="navbar">
+        <a href="#" class="logo-link"><img src="/media/assets/greenAI2.jpg" alt="Logo"></a>
+        <div>
+            <a href="{% url 'home' %}">Ana Sayfa</a>
+            <a href="{% url 'hakkinda' %}">GreenAI</a>
+            <a href="{% url 'supplements' %}">İlaçlar</a>
+            <a href="#">İletişim</a>
         </div>
-        <button type="submit">Fotoğraf Yükle</button>
-    </form>
+    </div>
+   
+    <h1><br>
+       Hastalık Tespiti</h1>
+    <div class="container">
+        <div class="box">
+            <h2>Neden bitkilerde hastalık tespiti gereklidir?</h2>
+            <p>Bitki hastalıkları, türlerinin büyümesini etkiler. Ayrıca, hastalıkların daha açık belirtiler göstermeden önce bitkilerde hastalık tespiti için daha fazla şeffaflık elde edilecek bazı araştırma boşlukları tanımlanmıştır.</p>
+        </div>
+        <div class="box">
+            <img src="/media/assets/yukle.jpg" alt="Plant Image">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="file-input-wrapper">
+                    <label class="file-input-label" for="id_image">Bir Fotoğraf Seçin</label>
+                    {{ form.image }}
+                </div>
+                <button type="submit">Fotoğrafı Yükleyin</button>
+            </form>
+        </div>
+        <div class="box">
+            <h2>Bitki Hastalığını Önlemek İçin Adımlar:</h2>
+            <ul>
+                <li>İyi Sanitasyon Uygulamalarını Takip Edin.</li>
+                <li>Bitkilerinizi Sağlıklı Tutmak İçin Gübre Kullanın.</li>
+                <li>Bitkileri Eve Getirmeden Önce Hastalık Belirtileri İçin Kontrol Edin.</li>
+                <li>Dikimden Önce Toprağın Isınmasına İzin Verin.</li>
+                <li>Mahsulleri Döndürerek Sağlıklı Bir Sebze Bahçesi Sağlayın.</li>
+                <li>İyi Hava Dolaşımı Sağlayın.</li>
+                <li>Hastalıklı Gövdeleri ve Yaprakları Çıkarın.</li>
+            </ul>
+        </div>
+    </div>
+    <div class="popup" id="popup-message">Dosya yüklendi</div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const fileInput = document.querySelector('.file-input-wrapper input[type="file"]');
+            const popupMessage = document.getElementById('popup-message');
+
+            fileInput.addEventListener('change', function(event) {
+                if (fileInput.files.length > 0) {
+                    popupMessage.textContent = 'Dosya yüklendi';
+                    popupMessage.classList.remove('error');
+                } else {
+                    popupMessage.textContent = 'Dosya yüklenemedi';
+                    popupMessage.classList.add('error');
+                }
+
+                popupMessage.style.display = 'block';
+
+                setTimeout(function() {
+                    popupMessage.style.display = 'none';
+                }, 3000);
+            });
+        });
+    </script>
 </body>
 </html>

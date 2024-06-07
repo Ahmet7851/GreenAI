@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GreenAI - Hakkında</title>
+    <style>
+        
+        body {
+            background-image: url('/media/top-view-tropical-leaves-with-copy-space.jpg');
+            background-repeat: no-repeat;
+            background-attachment: scroll;
+            background-size: 100% 100%;
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .navbar {
+            width: calc(100% - 3rem);
+            background-color: #1a1a2e;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar a {
+            color: rgb(255, 255, 255);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            font-weight: bold;
+            font-size: 1rem;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .navbar a:hover {
+            background-color: #e94560;
+            border-radius: 4px;
+            color: white;
+        }
+
+        .navbar img {
+            height: 50px;
+            width: 70px;
+        }
+        .navbar .logo-link:hover {
+            background-color: transparent; /* Hover etkisini kaldırır */
+            color: inherit;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            
+            border-radius: 8px;
+          
+            margin-top:130px;
+            margin-left: 30rem;
+        }
+        h1 {
+            color: #243a33;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        .info-box {
+            background-color: #fffdd0;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            width: 100%;
+           
+           
+            
+            
+            width: 100%;
+        }
+        .info-box p {
+            margin: 0;
+        }
+        .highlight {
+            color: #b55439;
+            font-weight: bold;
+        }
+        .cta-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #b55439;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .cta-button:hover {
+            background-color: #8e3726;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="{% url 'home' %}" class="logo-link"><img src="/media/assets/greenAI2.jpg" alt="Logo"></a>
+        <div>
+            <a href="{% url 'home' %}">Ana Sayfa</a>
+            <a href="{% url 'hakkinda' %}">GreenAI</a>
+            <a href="{% url 'supplements' %}">İlaçlar</a>
+            <a href="#">İletişim</a>
+        </div>
+    </div>
+    <div class="container">
+        <h1 >GreenAI Hakkında</h1>
+        <div class="info-box">
+            <p>
+                <span class="highlight">GreenAI</span>, bitki yetiştiriciliği ve bitki hastalıkları konusunda yenilikçi çözümler sunan bir yapay zeka tabanlı platformdur. Bitki yetiştirme ve hastalık teşhisi konusunda uzman olmayan bireylerin, bitkilerindeki problemleri kolayca teşhis etmelerine ve çözüm bulmalarına yardımcı olur. 
+            </p>
+            <p>
+                <span class="highlight">GreenAI</span>, bitkilerin yapraklarını analiz ederek derin öğrenme yöntemlerini kullanır ve bitki problemlerini tanımlar. Ayrıca, yapay zeka destekli çözüm önerileri sunar ve kullanıcılara bu çözümleri uygulamaları için rehberlik eder.
+            </p>
+            <p>
+                Projemizin amacı, bitki yetiştiriciliğinde verimliliği artırmak ve bitki hastalıklarını daha etkin bir şekilde kontrol altına almaktır. Ayrıca, bitki yetiştirme konusunda deneyimi olmayan kişilerin de sağlıklı bitkiler yetiştirebilmesine yardımcı olmaktır.
+            </p>
+            <p>
+                <span class="highlight">GreenAI</span>, derin öğrenme teknolojileri ve yapay zeka asistanlarıyla bitki yetiştiricilerine önemli faydalar sağlar. Projenin başarıyla tamamlanması, bitki yetiştiricilerine ve ilgili diğer sektörlere önemli katkılar sağlayacaktır.
+            </p>
+        </div>
+       
+    </div>
+</body>
+</html>

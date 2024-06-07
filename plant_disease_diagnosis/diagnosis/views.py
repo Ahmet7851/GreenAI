@@ -6,6 +6,12 @@ from tensorflow.keras.models import load_model
 from PIL import Image as PILImage
 import os
 from g4f.client import Client
+from g4f.Provider import Gemini
+from g4f.client import AsyncClient
+from g4f.cookies import set_cookies_dir, read_cookie_files
+from g4f.Provider import BingCreateImages, OpenaiChat, Gemini
+import os.path
+
 
 
 # Modeli yükleyin
@@ -27,7 +33,23 @@ def home(request):
         form = UploadImageForm()
     return render(request, 'home.html', {'form': form})
 
+# ANA SAYFA BUTOUNU
+def home2(request):
+    return render(request, 'home.html')
+
+# İLAÇLAR BUTONU
+def supplements(request):
+    return render(request, 'supplements.html')
+
+
+ #GREEAN AI BUTONU
+def hakkinda(request):
+    return render(request, 'hakkinda.html')
+
+
+# TAHMİN
 def predict_image(image_path):
+ 
     image = PILImage.open(image_path).convert("RGB")
     image = image.resize((224, 224))
     image = np.array(image) / 255.0
@@ -41,11 +63,18 @@ def predict_image(image_path):
 
     ##################################################
     hastalik = tahmin_etiket
+    cookies_dir=cookies_dir = os.path.join(os.path.dirname(__file__), "chatgpt.com.har")
+    set_cookies=(cookies_dir)
+    read_cookie_files(cookies_dir)
+    
 
-    chat="Bitkimde ki {} sorununu çözemek için izleyeceğim adımlar nelerdir.".format(hastalik)
-    client = Client()
+    chat="Sorum bir bitki ile alakalı. Bit  kimde ki {} sorununu cözmek icin izleyeceğim adimlar nelerdir.Bunu Turkce karakterler ile cevaplar misin".format(hastalik)
+    client = Client(
+)
     response = client.chat.completions.create(
+    
     model="gpt-3.5-turbo",
+    
     messages=[{"role": "user", "content": chat}],
     #############################################
    

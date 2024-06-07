@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supplements</title>
+    <style>
+        
+            body {
+            background-image: url('/media/ilaçarka.jpg');
+            background-repeat: no-repeat;
+            background-attachment: scroll;
+            background-size: 100% 100%;
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+
+        .navbar {
+            width: calc(100% - 3rem);
+            background-color: #1a1a2e;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar a {
+            color: rgb(255, 255, 255);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            font-weight: bold;
+            font-size: 1rem;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .navbar a:hover {
+            background-color: #e94560;
+            border-radius: 4px;
+            color: white;
+        }
+
+        .navbar img {
+            height: 50px;
+            width: 70px;
+        }
+
+        .navbar .logo-link:hover {
+            background-color: transparent;
+            color: inherit;
+        }
+        
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 2rem auto;
+            max-width: 1200px;
+            padding: 0 1rem;
+            margin-top: 10rem;
+        }
+
+        .card {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin: 1rem;
+            padding: 1rem;
+            width: 220px;
+            text-align: center;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+        }
+
+        .card img {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .card h3 {
+            color: #333;
+            font-size: 1.25rem;
+            margin: 0.5rem 0 0.5rem;
+        }
+
+        .card p {
+            color: #777;
+            font-size: 0.9rem;
+            margin: 0.5rem 0;
+        }
+
+        .card button {
+            padding: 0.5rem 1rem;
+            background-color: #1a1a2e;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            transition: background-color 0.3s;
+        }
+
+        .card button:hover {
+            background-color: #e94560;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="{% url 'home' %}" class="logo-link"><img src="/media/assets/greenAI2.jpg" alt="Logo"></a>
+        <div>
+            <a href="{% url 'home' %}">Ana Sayfa</a>
+            <a href="{% url 'hakkinda' %}">GreenAI</a>
+            <a href="{% url 'supplements' %}">İlaçlar</a>
+            <a href="#">İletişim</a>
+        </div>
+    </div>
+    
+        <div class="container">
+        <div class="card">
+            <img src="/media/assets/Mantarİlaci.png" alt="Prozol">
+            <h3>Mantar İlacı</h3>
+            <p>Adama</p>
+            <button>Satın Al</button>
+        </div>
+        <div class="card">
+            <img src="/media/assets/Bakteriİlacı.jpg" alt="Magic Fungix">
+            <h3>Bakteri İlacı</h3>
+            <p>Barox</p>
+            <button>Satın Al</button>
+        </div>
+        <div class="card">
+            <img src="/media/assets/viron-600x600.jpg" alt="Organic Fungicide">
+            <h3>Virüs İlacı</h3>
+            <p>Viron</p>
+            <button>Satın Al</button>
+        </div>
+        <div class="card">
+            <img src="/media/assets/Hasereİlacı.jpg" alt="Triple Booster">
+            <h3>Haşere İlacı</h3>
+            <p>Pinos</p>
+            <button>Satın Al</button>
+        </div>
+    </div>
+</body>
+</html>

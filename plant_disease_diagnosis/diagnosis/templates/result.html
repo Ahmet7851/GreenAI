@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Teşhis Sonucu</title>
+    <style>
+        body {
+            background-image: url('/media/arkaplan-2.jpg');
+            background-repeat: no-repeat;
+            background-attachment: scroll;
+            background-size: 100% 100%;
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            width: calc(100% - 3rem);
+            background-color: #000942;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar a {
+            color: rgb(255, 255, 255);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            font-weight: bold;
+            font-size: 1rem;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .navbar a:hover {
+            background-color: #05583e;
+            border-radius: 4px;
+            color: white;
+        }
+
+        .navbar img {
+            height: 50px;
+            width: 70px;
+        }
+        
+        .navbar .logo-link:hover {
+            background-color: transparent;
+            color: inherit;
+        }
+
+        .container {
+            width: 40%;
+            max-width: 500px;
+            background-color: #ffffff;
+            color: #333;
+            border-radius: 8px;
+            padding: 1rem; /* padding değeri azaltıldı */
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h1 {
+            text-align: center;
+            margin: 2rem 0 1rem 0;
+            color: white;
+        }
+
+        .image-container {
+            margin-top: 2rem;
+            width: 100%;
+            max-width: 200px; /* Küçük boyut */
+            padding: 0; /* padding değeri kaldırıldı */
+        }
+
+        .image-container img {
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin: 0; /* margin değeri kaldırıldı */
+        }
+
+        .description-container {
+            width: 80%;
+            max-width: 800px;
+            background-color: #fffdd06a;
+            color: #333;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .description-container h2 {
+            margin-top: 0;
+        }
+
+        .button-wrapper {
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .button-wrapper a {
+            display: inline-block;
+            background-color: #2926d3;
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 4px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        .button-wrapper a:hover {
+            background-color: #45a049;
+        }
+
+        footer {
+            background-color: #2d2d2d;
+            color: white;
+            width: 100%;
+            padding: 1rem 0;
+            text-align: center;
+        }
+
+        @media (max-width: 500px) {
+            .image-container {
+                width: 80%;
+            }
+
+            .description-container {
+                width: 95%;
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="{% url 'home' %}" class="logo-link"><img src="/media/assets/greenAI2.jpg" alt="Logo"></a>
+        <div>
+            <a href="{% url 'home' %}">Ana Sayfa</a>
+            <a href="#">GreenAI</a>
+            <a href="#">İlaçlar</a>
+            <a href="#">İletişim</a>
+        </div>
+    </div>
+    <h1>Teşhis Sonucu</h1>
+    <div class="container image-container">
+        <img src="{{ image_path }}" alt="Yüklenen Görüntü">
+    </div>
+    <div class="description-container">
+        <h2>Hastalık Teşhisi</h2>
+        <p>{{ prediction }}</p>
+    </div>
+    <div class="button-wrapper">
+        <a href="{% url 'home' %}">Yeni Fotoğraf Yükle</a>
+    </div>
+</body>
+</html>

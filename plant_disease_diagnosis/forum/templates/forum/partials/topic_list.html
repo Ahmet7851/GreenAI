@@ -1,51 +1,109 @@
 {% load static %}
 
 <div class="topic-header">
-    <div class="header-cell">#</div>
-    <div class="header-cell">Konu</div>
-    <div class="header-cell">Kategori</div>
-    <div class="header-cell">Cevap</div>
-    <div class="header-cell">Görüntülenme</div>
-    <div class="header-cell">Son Yazan</div>
+    <div class="text-center">#</div>
+    <div>Konu</div>
+    <div class="text-center d-none d-lg-block">Kategori</div>
+    <div class="text-center d-none d-md-block">Cevap</div>
+    <div class="text-center d-none d-lg-block">Görüntülenme</div>
+    <div class="text-center d-none d-lg-block">Son Aktivite</div>
 </div>
 
 {% for post in posts %}
-<div class="topic-item">
-    <div class="topic-number">{{ forloop.counter }}</div>
-    <div class="topic-main">
-        <div class="topic-avatar">
-            <a href="{% url 'forum:profile' post.author.username %}">
+<div class="topic-item" onclick="window.location.href='{% url 'forum:post_detail' post.id %}'">
+    <div class="text-center text-muted fw-bold">{{ forloop.counter }}</div>
+
+    <div class="topic-info">
+        <div class="d-flex align-items-center gap-3">
+            <div class="topic-avatar">
                 {% if post.author.userprofile.avatar %}
-                    <img src="{{ post.author.userprofile.avatar.url }}" alt="{{ post.author.username }}" class="topic-user-avatar">
+                    <img src="{{ post.author.userprofile.avatar.url }}"
+                         alt="{{ post.author.username }}"
+                         class="modern-avatar"
+                         style="width: 44px; height: 44px;">
                 {% else %}
-                    <img src="{% static 'forum/images/default-avatar.png' %}" alt="{{ post.author.username }}" class="topic-user-avatar">
+                    <img src="{% static 'forum/images/default-avatar.png' %}"
+                         alt="{{ post.author.username }}"
+                         class="modern-avatar"
+                         style="width: 44px; height: 44px;">
                 {% endif %}
-            </a>
-        </div>
-        <div class="topic-info">
-            <a href="{% url 'forum:post_detail' post.id %}" class="topic-title">{{ post.title }}</a>
-            <span class="topic-meta">{{ post.created_at|timesince }} önce</span>
-        </div>
-    </div>
-    <div class="topic-category">{{ post.category.name }}</div>
-    <div class="topic-replies">{{ post.comments.count }}</div>
-    <div class="topic-views">{{ post.views }}</div>
-    <div class="topic-last-user">
-        <div class="last-user-info">
-            <a href="{% url 'forum:profile' post.last_comment.author.username|default:post.author.username %}" class="last-user-avatar">
-                {% if post.last_comment.author.userprofile.avatar|default:post.author.userprofile.avatar %}
-                    <img src="{{ post.last_comment.author.userprofile.avatar.url|default:post.author.userprofile.avatar.url }}" alt="Son Yazan">
-                {% else %}
-                    <img src="{% static 'forum/images/default-avatar.png' %}" alt="Son Yazan">
-                {% endif %}
-            </a>
-            <div class="last-user-details">
-                <a href="{% url 'forum:profile' post.last_comment.author.username|default:post.author.username %}" class="last-user-name">
-                    {{ post.last_comment.author.username|default:post.author.username }}
-                </a>
-                <span class="last-post-date">{{ post.last_comment.created_at|default:post.created_at|timesince }} önce</span>
+            </div>
+            <div class="flex-grow-1">
+                <h6 class="topic-title mb-1">{{ post.title }}</h6>
+                <div class="topic-meta">
+                    <small class="text-muted">
+                        <i class="fas fa-user"></i>
+                        <a href="{% url 'forum:profile' post.author.username %}" class="text-decoration-none">
+                            {{ post.author.username }}
+                        </a>
+                        <span class="mx-2">•</span>
+                        <i class="fas fa-clock"></i>
+                        {{ post.created_at|timesince }} önce
+                    </small>
+                </div>
             </div>
         </div>
     </div>
+
+    <div class="text-center d-none d-lg-block">
+        <span class="category-badge">
+            <i class="{{ post.category.icon|default:'fas fa-folder' }}"></i>
+            {{ post.category.name }}
+        </span>
+    </div>
+
+    <div class="text-center d-none d-md-block">
+        <div class="topic-stats">
+            <strong>{{ post.comments.count }}</strong>
+            <small class="d-block text-muted">cevap</small>
+        </div>
+    </div>
+
+    <div class="text-center d-none d-lg-block">
+        <div class="topic-stats">
+            <strong>{{ post.views|default:0 }}</strong>
+            <small class="d-block text-muted">görüntülenme</small>
+        </div>
+    </div>
+
+    <div class="d-none d-lg-block">
+        {% with last_comment=post.comments.last %}
+            {% if last_comment %}
+            <div class="last-user-info">
+                <img src="{{ last_comment.author.userprofile.avatar.url|default:'/static/forum/images/default-avatar.png' }}"
+                     alt="{{ last_comment.author.username }}"
+                     class="last-user-avatar">
+                <div class="last-user-details">
+                    <a href="{% url 'forum:profile' last_comment.author.username %}"
+                       class="last-user-name">{{ last_comment.author.username }}</a>
+                    <small class="last-post-date">{{ last_comment.created_at|timesince }} önce</small>
+                </div>
+            </div>
+            {% else %}
+            <div class="last-user-info">
+                <img src="{{ post.author.userprofile.avatar.url|default:'/static/forum/images/default-avatar.png' }}"
+                     alt="{{ post.author.username }}"
+                     class="last-user-avatar">
+                <div class="last-user-details">
+                    <a href="{% url 'forum:profile' post.author.username %}"
+                       class="last-user-name">{{ post.author.username }}</a>
+                    <small class="last-post-date">{{ post.created_at|timesince }} önce</small>
+                </div>
+            </div>
+            {% endif %}
+        {% endwith %}
+    </div>
 </div>
-{% endfor %} 
+{% empty %}
+<div class="text-center py-5">
+    <i class="fas fa-comments fa-3x text-muted mb-3"></i>
+    <h5 class="text-muted">Henüz konu bulunmuyor</h5>
+    <p class="text-muted">İlk konuyu sen aç!</p>
+    {% if user.is_authenticated %}
+    <a href="{% url 'forum:create_post' %}" class="btn modern-btn-primary">
+        <i class="fas fa-plus"></i>
+        Yeni Konu Aç
+    </a>
+    {% endif %}
+</div>
+{% endfor %}

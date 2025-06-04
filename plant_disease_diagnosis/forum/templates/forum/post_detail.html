@@ -4,186 +4,161 @@
 {% block title %}{{ post.title }} - GreenAI Forum{% endblock %}
 
 {% block extra_css %}
-<link href="{% static 'forum/css/post_detail.css' %}" rel="stylesheet">
-<style>
-    .navbar {
-        background: white;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-        padding: 0.5rem 2rem;
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        z-index: 1000;
-    }
-
-    .nav-content {
-        max-width: 1440px;
-        margin: 0 auto;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    .nav-auth {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-    }
-
-    .user-menu {
-        position: relative;
-        cursor: pointer;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 5px;
-    }
-
-    .user-menu .avatar {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        object-fit: cover;
-        border: 2px solid #2ecc71;
-        transition: transform 0.3s ease;
-    }
-
-    .dropdown-menu {
-        position: absolute;
-        right: 0;
-        top: 100%;
-        background: white;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        border-radius: 4px;
-        min-width: 200px;
-        padding: 8px 0;
-        opacity: 0;
-        visibility: hidden;
-        transform: translateY(10px);
-        transition: all 0.3s ease;
-        z-index: 1000;
-    }
-
-    .user-menu:hover .dropdown-menu {
-        opacity: 1;
-        visibility: visible;
-        transform: translateY(0);
-    }
-
-    .dropdown-menu a {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        padding: 12px 16px;
-        color: #333;
-        text-decoration: none;
-        transition: background 0.3s ease;
-    }
-
-    .dropdown-menu a:hover {
-        background: rgba(46, 204, 113, 0.1);
-        color: #2ecc71;
-    }
-
-    .dropdown-menu i {
-        width: 20px;
-        color: #666;
-    }
-
-    .dropdown-menu a:hover i {
-        color: #2ecc71;
-    }
-
-    /* Yeni Konu Butonu */
-    .new-topic-btn {
-        background: #2ecc71;
-        color: white;
-        padding: 10px 20px;
-        border-radius: 8px;
-        text-decoration: none;
-        font-weight: 500;
-        transition: all 0.3s ease;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-    }
-
-    .new-topic-btn:hover {
-        background: #27ae60;
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(46, 204, 113, 0.2);
-    }
-</style>
+<link href="{% static 'forum/css/modern-post-detail.css' %}" rel="stylesheet">
 {% endblock %}
 
 {% block content %}
-<div class="post-detail-container">
-    <div class="post-content">
-        <!-- Gönderi Başlığı ve Meta Bilgileri -->
-        <div class="post-header">
-            <div class="category-badge">
-                <i class="{{ post.category.icon }}"></i>
-                {{ post.category.name }}
-            </div>
-            <h1 class="post-title">{{ post.title }}</h1>
-            <div class="post-meta">
-                <div class="author-info">
-                    <img src="{{ post.author.userprofile.avatar.url|default:'/static/forum/images/default-avatar.png' }}" 
-                         alt="{{ post.author.username }}" class="author-avatar">
-                    <div class="author-details">
-                        <a href="{% url 'forum:profile' post.author.username %}" class="author-name">
-                            {{ post.author.username }}
-                        </a>
-                        <span class="post-date">{{ post.created_at|date:"d M Y, H:i" }}</span>
+<div class="container-fluid px-4">
+    <div class="row g-4">
+        <!-- Main Post Content -->
+        <div class="col-lg-8">
+            <!-- Post Card -->
+            <div class="modern-card post-card">
+                <!-- Post Header -->
+                <div class="post-header">
+                    <!-- Breadcrumb -->
+                    <nav aria-label="breadcrumb" class="mb-3">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="{% url 'forum:home' %}">
+                                    <i class="fas fa-home"></i>
+                                    Forum
+                                </a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                {% if post.category.slug %}
+                                <a href="{% url 'forum:category_detail' post.category.slug %}">
+                                    <i class="{{ post.category.icon|default:'fas fa-folder' }}"></i>
+                                    {{ post.category.name }}
+                                </a>
+                                {% else %}
+                                <span>
+                                    <i class="{{ post.category.icon|default:'fas fa-folder' }}"></i>
+                                    {{ post.category.name }}
+                                </span>
+                                {% endif %}
+                            </li>
+                            <li class="breadcrumb-item active" aria-current="page">{{ post.title|truncatechars:50 }}</li>
+                        </ol>
+                    </nav>
+
+                    <!-- Category Badge -->
+                    <div class="category-badge mb-3">
+                        <i class="{{ post.category.icon|default:'fas fa-folder' }}"></i>
+                        {{ post.category.name }}
+                    </div>
+
+                    <!-- Post Title -->
+                    <h1 class="post-title">{{ post.title }}</h1>
+
+                    <!-- Post Meta -->
+                    <div class="post-meta">
+                        <div class="author-info">
+                            <img src="{{ post.author.userprofile.avatar.url|default:'/static/forum/images/default-avatar.png' }}"
+                                 alt="{{ post.author.username }}"
+                                 class="author-avatar modern-avatar">
+                            <div class="author-details">
+                                <a href="{% url 'forum:profile' post.author.username %}" class="author-name">
+                                    {{ post.author.get_full_name|default:post.author.username }}
+                                </a>
+                                <div class="post-date">
+                                    <i class="fas fa-clock"></i>
+                                    {{ post.created_at|date:"d M Y, H:i" }}
+                                    <span class="mx-2">•</span>
+                                    <i class="fas fa-history"></i>
+                                    {{ post.created_at|timesince }} önce
+                                </div>
+                            </div>
+                        </div>
+                        <div class="post-stats">
+                            <div class="stat-item">
+                                <i class="fas fa-eye"></i>
+                                <span>{{ post.views|default:0 }}</span>
+                                <small>görüntülenme</small>
+                            </div>
+                            <div class="stat-item">
+                                <i class="fas fa-comments"></i>
+                                <span>{{ post.comments.count }}</span>
+                                <small>yorum</small>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="post-stats">
-                    <span class="views">
-                        <i class="fas fa-eye"></i> {{ post.views }}
-                    </span>
-                    <span class="comments">
-                        <i class="fas fa-comments"></i> {{ post.comments.count }}
-                    </span>
+
+                <!-- Post Body -->
+                <div class="post-body">
+                    <div class="content-wrapper">
+                        {{ post.content|safe }}
+                    </div>
                 </div>
-            </div>
-        </div>
 
-        <!-- Gönderi İçeriği -->
-        <div class="post-body">
-            {{ post.content|safe }}
-        </div>
+                <!-- Post Attachments -->
+                {% if post.post_images.exists or post.post_files.exists %}
+                <div class="post-attachments">
+                    <!-- Images -->
+                    {% if post.post_images.exists %}
+                    <div class="attachment-section">
+                        <h4 class="attachment-title">
+                            <i class="fas fa-images"></i>
+                            Görseller ({{ post.post_images.count }})
+                        </h4>
+                        <div class="image-grid">
+                            {% for image in post.post_images.all %}
+                            <div class="image-item" onclick="openImageViewer('{{ image.image.url }}')">
+                                <img src="{{ image.image.url }}"
+                                     alt="Gönderi görseli"
+                                     loading="lazy">
+                                <div class="image-overlay">
+                                    <i class="fas fa-search-plus"></i>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
 
-        <!-- Gönderi Görselleri -->
-        {% if post.post_images.exists %}
-        <div class="post-images">
-            <h3>Görseller</h3>
-            <div class="image-grid">
-                {% for image in post.post_images.all %}
-                <div class="image-item">
-                    <img src="{{ image.image.url }}" alt="Gönderi görseli">
+                    <!-- Files -->
+                    {% if post.post_files.exists %}
+                    <div class="attachment-section">
+                        <h4 class="attachment-title">
+                            <i class="fas fa-paperclip"></i>
+                            Dosyalar ({{ post.post_files.count }})
+                        </h4>
+                        <div class="file-list">
+                            {% for file in post.post_files.all %}
+                            <a href="{{ file.file.url }}" class="file-item" download>
+                                <div class="file-icon">
+                                    <i class="fas fa-file"></i>
+                                </div>
+                                <div class="file-info">
+                                    <span class="file-name">{{ file.file_name }}</span>
+                                    <span class="file-size">{{ file.file_size|filesizeformat }}</span>
+                                </div>
+                                <div class="download-icon">
+                                    <i class="fas fa-download"></i>
+                                </div>
+                            </a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
                 </div>
-                {% endfor %}
-            </div>
-        </div>
-        {% endif %}
+                {% endif %}
 
-        <!-- Gönderi Dosyaları -->
-        {% if post.post_files.exists %}
-        <div class="post-files">
-            <h3>Dosyalar</h3>
-            <div class="file-list">
-                {% for file in post.post_files.all %}
-                <a href="{{ file.file.url }}" class="file-item" download>
-                    <i class="fas fa-file"></i>
-                    <span class="file-name">{{ file.file_name }}</span>
-                    <span class="file-size">{{ file.file_size|filesizeformat }}</span>
-                </a>
-                {% endfor %}
+                <!-- Post Actions -->
+                {% if user == post.author %}
+                <div class="post-actions">
+                    <a href="{% url 'forum:edit_post' post.id %}" class="btn btn-outline-primary">
+                        <i class="fas fa-edit"></i>
+                        Düzenle
+                    </a>
+                    <a href="{% url 'forum:delete_post' post.id %}" class="btn btn-outline-danger">
+                        <i class="fas fa-trash"></i>
+                        Sil
+                    </a>
+                </div>
+                {% endif %}
             </div>
-        </div>
-        {% endif %}
-    </div>
 
     <!-- Yorumlar Bölümü -->
     <div class="comments-section">

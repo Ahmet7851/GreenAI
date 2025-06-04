@@ -5,7 +5,7 @@ from django.utils.text import slugify
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     avatar = models.ImageField(upload_to='avatars/', default='avatars/default.png')
-    bio = models.TextField(blank=True, null=True)
+    bio = models.TextField(blank=True, null=True, default='')
     
     def __str__(self):
         return self.user.username

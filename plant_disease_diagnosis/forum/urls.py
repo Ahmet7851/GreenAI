@@ -22,7 +22,7 @@ urlpatterns = [
     path('comment/<int:comment_id>/delete/', views.delete_comment, name='delete_comment'),
     path('categories/', views.categories, name='categories'),
     path('members/', views.members, name='members'),
-    path('category/<slug:slug>/', views.category_detail, name='category'),
+    path('category/<slug:slug>/', views.category_detail, name='category_detail'),
     path('new-posts/', views.new_posts, name='new_posts'),
     path('get-posts/<str:tab_type>/', views.get_posts_by_tab, name='get_posts_by_tab'),
 ] 

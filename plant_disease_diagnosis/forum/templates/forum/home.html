@@ -52,17 +52,10 @@
                         <div class="topic-info">
                             <div class="d-flex align-items-center gap-3">
                                 <div class="topic-avatar">
-                                    {% if post.author.userprofile.avatar %}
-                                        <img src="{{ post.author.userprofile.avatar.url }}"
-                                             alt="{{ post.author.username }}"
-                                             class="modern-avatar"
-                                             style="width: 44px; height: 44px;">
-                                    {% else %}
-                                        <img src="{% static 'forum/images/default-avatar.png' %}"
-                                             alt="{{ post.author.username }}"
-                                             class="modern-avatar"
-                                             style="width: 44px; height: 44px;">
-                                    {% endif %}
+                                    <img src="{% static 'forum/images/default-avatar.png' %}"
+                                         alt="{{ post.author.username }}"
+                                         class="modern-avatar"
+                                         style="width: 44px; height: 44px; border-radius: 50%; object-fit: cover;">
                                 </div>
                                 <div class="flex-grow-1">
                                     <h6 class="topic-title mb-1">{{ post.title }}</h6>

@@ -181,16 +181,14 @@
                 <div class="post-header">
                     <div class="post-meta">
                         <a href="{% url 'forum:profile' post.author.username %}" class="author">
-                            {% if post.author.userprofile.avatar %}
-                            <img src="{{ post.author.userprofile.avatar.url }}" alt="{{ post.author.username }}">
-                            {% else %}
-                            <i class="fas fa-user-circle"></i>
-                            {% endif %}
+                            <img src="{% static 'forum/images/default-avatar.png' %}"
+                                 alt="{{ post.author.username }}" class="author-avatar"
+                                 style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover;">
                             {{ post.author.username }}
                         </a>
                         <span class="date">{{ post.created_at|date:"d M Y" }}</span>
                     </div>
-                    <a href="{% url 'forum:category' post.category.id %}" class="category">
+                    <a href="{% url 'forum:category_detail' post.category.slug %}" class="category">
                         <i class="{{ post.category.icon }}"></i>
                         {{ post.category.name }}
                     </a>

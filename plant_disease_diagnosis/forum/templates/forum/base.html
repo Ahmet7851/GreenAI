@@ -100,8 +100,9 @@
                         <div class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle modern-user-menu" href="#" role="button"
                                data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src="{{ user.userprofile.avatar.url|default:'/static/forum/images/default-avatar.png' }}"
-                                     alt="{{ user.username }}" class="user-avatar">
+                                <img src="{% static 'forum/images/default-avatar.png' %}"
+                                     alt="{{ user.username }}" class="user-avatar"
+                                     style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover;">
                                 <span class="user-name d-none d-lg-inline">{{ user.username }}</span>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end modern-dropdown">

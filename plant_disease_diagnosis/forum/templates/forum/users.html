@@ -25,11 +25,9 @@
             {% for profile in users %}
             <div class="user-card" data-username="{{ profile.user.username|lower }}">
                 <div class="user-avatar">
-                    {% if profile.avatar %}
-                    <img src="{{ profile.avatar.url }}" alt="{{ profile.user.username }}">
-                    {% else %}
-                    <i class="fas fa-user-circle"></i>
-                    {% endif %}
+                    <img src="{% static 'forum/images/default-avatar.png' %}"
+                         alt="{{ profile.user.username }}" class="user-avatar-img"
+                         style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover;">
                 </div>
                 
                 <div class="user-info">

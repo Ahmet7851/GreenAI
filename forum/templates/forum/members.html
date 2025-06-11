@@ -1,0 +1,181 @@
+{% extends 'forum/base.html' %}
+{% load static %}
+
+{% block title %}Üyeler - GreenAI Forum{% endblock %}
+
+{% block extra_css %}
+<style>
+.members-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1.5rem;
+}
+
+.members-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.members-header h1 {
+    color: #2d3436;
+    margin-bottom: 1rem;
+}
+
+.search-box {
+    max-width: 400px;
+    margin: 0 auto 2rem;
+    position: relative;
+}
+
+.search-box input {
+    width: 100%;
+    padding: 0.75rem 1rem 0.75rem 3rem;
+    border: 1px solid #ddd;
+    border-radius: 25px;
+    font-size: 1rem;
+}
+
+.search-box i {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #636e72;
+}
+
+.members-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+.member-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-align: center;
+}
+
+.member-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.member-avatar {
+    margin-bottom: 1rem;
+}
+
+.member-name {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #2d3436;
+    margin-bottom: 0.5rem;
+}
+
+.member-name a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.member-name a:hover {
+    color: #2ecc71;
+}
+
+.member-stats {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #e9ecef;
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-number {
+    font-weight: 600;
+    color: #2ecc71;
+}
+
+.stat-label {
+    font-size: 0.875rem;
+    color: #636e72;
+}
+
+.join-date {
+    font-size: 0.875rem;
+    color: #636e72;
+    margin-top: 0.5rem;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="members-container">
+    <div class="members-header">
+        <h1>Forum Üyeleri</h1>
+        <p>Topluluğumuzun değerli üyelerini keşfedin</p>
+    </div>
+
+    <div class="search-box">
+        <input type="text" id="memberSearch" placeholder="Üye ara...">
+        <i class="fas fa-search"></i>
+    </div>
+
+    <div class="members-grid" id="membersGrid">
+        {% for member in members %}
+        <div class="member-card" data-username="{{ member.username|lower }}">
+            <div class="member-avatar">
+                <img src="{% static 'forum/images/default-avatar.png' %}"
+                     alt="{{ member.username }}" class="member-avatar-img"
+                     style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover;">
+            </div>
+            <h3 class="member-name">
+                <a href="{% url 'forum:profile' member.username %}">{{ member.username }}</a>
+            </h3>
+            <div class="join-date">
+                <i class="fas fa-calendar-alt"></i>
+                {{ member.date_joined|date:"M Y" }} tarihinde katıldı
+            </div>
+            <div class="member-stats">
+                <div class="stat-item">
+                    <div class="stat-number">{{ member.post_set.count }}</div>
+                    <div class="stat-label">Gönderi</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">{{ member.comment_set.count }}</div>
+                    <div class="stat-label">Yorum</div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12 text-center">
+            <p>Henüz üye bulunmuyor.</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('memberSearch');
+    const memberCards = document.querySelectorAll('.member-card');
+
+    searchInput.addEventListener('input', function(e) {
+        const searchTerm = e.target.value.toLowerCase();
+
+        memberCards.forEach(card => {
+            const username = card.dataset.username;
+            if (username.includes(searchTerm)) {
+                card.style.display = 'block';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    });
+});
+</script>
+{% endblock %}

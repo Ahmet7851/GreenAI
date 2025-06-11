@@ -1,0 +1,123 @@
+{% extends 'forum/base.html' %}
+{% load static %}
+
+{% block title %}Kategoriler - GreenAI Forum{% endblock %}
+
+{% block extra_css %}
+<style>
+.categories-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1.5rem;
+}
+
+.categories-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.categories-header h1 {
+    color: #2d3436;
+    margin-bottom: 1rem;
+}
+
+.categories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.category-card {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-decoration: none;
+    color: inherit;
+}
+
+.category-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    text-decoration: none;
+    color: inherit;
+}
+
+.category-icon {
+    font-size: 3rem;
+    color: #2ecc71;
+    margin-bottom: 1rem;
+}
+
+.category-name {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #2d3436;
+    margin-bottom: 0.5rem;
+}
+
+.category-description {
+    color: #636e72;
+    margin-bottom: 1rem;
+    line-height: 1.6;
+}
+
+.category-stats {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 1rem;
+    border-top: 1px solid #e9ecef;
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-number {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #2ecc71;
+}
+
+.stat-label {
+    font-size: 0.875rem;
+    color: #636e72;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="categories-container">
+    <div class="categories-header">
+        <h1>Forum Kategorileri</h1>
+        <p>İlgilendiğiniz konulara göre kategorileri keşfedin</p>
+    </div>
+
+    <div class="categories-grid">
+        {% for category in categories %}
+        <a href="{% url 'forum:category_detail' category.slug %}" class="category-card">
+            <div class="category-icon">
+                <i class="{{ category.icon }}"></i>
+            </div>
+            <h3 class="category-name">{{ category.name }}</h3>
+            <p class="category-description">{{ category.description }}</p>
+            <div class="category-stats">
+                <div class="stat-item">
+                    <div class="stat-number">{{ category.post_count }}</div>
+                    <div class="stat-label">Gönderi</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">{{ category.posts.count }}</div>
+                    <div class="stat-label">Konu</div>
+                </div>
+            </div>
+        </a>
+        {% empty %}
+        <div class="col-12 text-center">
+            <p>Henüz kategori bulunmuyor.</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

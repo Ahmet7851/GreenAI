@@ -236,10 +236,12 @@ def register(request):
 
 @login_required
 def profile(request, username):
-    user_profile = get_object_or_404(UserProfile, user__username=username)
-    user_posts = Post.objects.filter(author=user_profile.user).order_by('-created_at')
-    user_comments = Comment.objects.filter(author=user_profile.user).order_by('-created_at')
-    
+    user = get_object_or_404(User, username=username)
+    # UserProfile yoksa oluştur
+    user_profile, created = UserProfile.objects.get_or_create(user=user, defaults={'bio': ''})
+    user_posts = Post.objects.filter(author=user).order_by('-created_at')
+    user_comments = Comment.objects.filter(author=user).order_by('-created_at')
+
     context = {
         'profile': user_profile,
         'posts': user_posts,
@@ -394,7 +396,7 @@ def get_recent_comments(request):
 def update_profile(request):
     try:
         user = request.user
-        profile = user.profile
+        profile, created = UserProfile.objects.get_or_create(user=user, defaults={'bio': ''})
 
         # Kullanıcı adı kontrolü
         new_username = request.POST.get('username')

@@ -25,24 +25,26 @@ document.addEventListener('DOMContentLoaded', function() {
     const modal = document.getElementById('editProfileModal');
     const closeModalButtons = document.querySelectorAll('.close-modal');
 
-    if (editProfileBtn) {
+    if (editProfileBtn && modal) {
         editProfileBtn.addEventListener('click', () => {
-            modal.classList.add('active');
+            modal.style.display = 'block';
             document.body.style.overflow = 'hidden';
         });
     }
 
     closeModalButtons.forEach(button => {
         button.addEventListener('click', () => {
-            modal.classList.remove('active');
-            document.body.style.overflow = 'auto';
+            if (modal) {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
         });
     });
 
     // Modal dışına tıklandığında kapat
     window.addEventListener('click', (e) => {
         if (e.target === modal) {
-            modal.classList.remove('active');
+            modal.style.display = 'none';
             document.body.style.overflow = 'auto';
         }
     });
@@ -85,4 +87,76 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     statNumbers.forEach(number => animateNumber(number));
+
+    // Profil güncelleme formu
+    const profileForm = document.querySelector('#editProfileModal form');
+    if (profileForm) {
+        profileForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const formData = new FormData(this);
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+
+            // Loading state
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Kaydediliyor...';
+            submitBtn.disabled = true;
+
+            try {
+                const response = await fetch(this.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+                    }
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    // Başarılı mesaj göster
+                    showMessage('Profil başarıyla güncellendi!', 'success');
+
+                    // Modal'ı kapat
+                    modal.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+
+                    // Sayfayı yenile (profil bilgilerini güncellemek için)
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1000);
+                } else {
+                    showMessage(data.error || 'Bir hata oluştu!', 'error');
+                }
+            } catch (error) {
+                showMessage('Bağlantı hatası!', 'error');
+            } finally {
+                // Button'ı eski haline getir
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }
+        });
+    }
+
+    // Mesaj gösterme fonksiyonu
+    function showMessage(message, type) {
+        // Mevcut mesajları temizle
+        const existingMessages = document.querySelectorAll('.alert-message');
+        existingMessages.forEach(msg => msg.remove());
+
+        const alertDiv = document.createElement('div');
+        alertDiv.className = `alert-message alert-${type}`;
+        alertDiv.innerHTML = `
+            <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
+            ${message}
+        `;
+
+        // Sayfanın üstüne ekle
+        document.body.insertBefore(alertDiv, document.body.firstChild);
+
+        // 5 saniye sonra kaldır
+        setTimeout(() => {
+            alertDiv.remove();
+        }, 5000);
+    }
 });

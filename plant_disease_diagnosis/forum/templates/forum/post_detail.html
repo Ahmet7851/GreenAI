@@ -54,9 +54,10 @@
                     <!-- Post Meta -->
                     <div class="post-meta">
                         <div class="author-info">
-                            <img src="{{ post.author.userprofile.avatar.url|default:'/static/forum/images/default-avatar.png' }}"
+                            <img src="{% static 'forum/images/default-avatar.png' %}"
                                  alt="{{ post.author.username }}"
-                                 class="author-avatar modern-avatar">
+                                 class="author-avatar modern-avatar"
+                                 style="width: 44px; height: 44px; border-radius: 50%; object-fit: cover;">
                             <div class="author-details">
                                 <a href="{% url 'forum:profile' post.author.username %}" class="author-name">
                                     {{ post.author.get_full_name|default:post.author.username }}
@@ -183,15 +184,11 @@
             <div class="comment" id="comment-{{ comment.id }}">
                 <div class="comment-header">
                     <div class="comment-author">
-                        {% if comment.author.userprofile.avatar %}
-                            <a href="{% url 'forum:profile' comment.author.username %}">
-                                <img src="{{ comment.author.userprofile.avatar.url }}" alt="Avatar" class="author-avatar">
-                            </a>
-                        {% else %}
-                            <a href="{% url 'forum:profile' comment.author.username %}">
-                                <img src="{% static 'forum/images/default-avatar.png' %}" alt="Default Avatar" class="author-avatar">
-                            </a>
-                        {% endif %}
+                        <a href="{% url 'forum:profile' comment.author.username %}">
+                            <img src="{% static 'forum/images/default-avatar.png' %}"
+                                 alt="{{ comment.author.username }}" class="author-avatar"
+                                 style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;">
+                        </a>
                         <div class="author-details">
                             <span class="author-name">{{ comment.author.username }}</span>
                             <span class="comment-date">

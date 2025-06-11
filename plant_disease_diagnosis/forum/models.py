@@ -3,12 +3,19 @@ from django.contrib.auth.models import User
 from django.utils.text import slugify
 
 class UserProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    avatar = models.ImageField(upload_to='avatars/', default='avatars/default.png')
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
+    avatar = models.ImageField(upload_to='avatars/', default='avatars/default.png', blank=True, null=True)
     bio = models.TextField(blank=True, null=True, default='')
-    
+
     def __str__(self):
         return self.user.username
+
+    @property
+    def avatar_url(self):
+        """Avatar URL'sini güvenli bir şekilde döndürür"""
+        if self.avatar and hasattr(self.avatar, 'url'):
+            return self.avatar.url
+        return '/static/forum/images/default-avatar.png'
 
 class Category(models.Model):
     name = models.CharField(max_length=100)

@@ -6,11 +6,15 @@ from .models import UserProfile
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
-        UserProfile.objects.create(user=instance, bio='')
+        UserProfile.objects.get_or_create(user=instance, defaults={'bio': ''})
 
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
-    if hasattr(instance, 'userprofile'):
-        instance.userprofile.save()
-    else:
-        UserProfile.objects.create(user=instance, bio='')
+    try:
+        if hasattr(instance, 'profile'):
+            instance.profile.save()
+        else:
+            UserProfile.objects.get_or_create(user=instance, defaults={'bio': ''})
+    except Exception as e:
+        # Eğer profile yoksa oluştur
+        UserProfile.objects.get_or_create(user=instance, defaults={'bio': ''})

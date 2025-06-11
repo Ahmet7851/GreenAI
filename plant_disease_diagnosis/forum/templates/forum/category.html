@@ -63,8 +63,9 @@
                  data-comments="{{ post.comments.count }}" data-views="{{ post.views }}">
                 <div class="post-header">
                     <div class="author-info">
-                        <img src="{{ post.author.userprofile.avatar.url|default:'/static/forum/images/default-avatar.png' }}" 
-                             alt="{{ post.author.username }}" class="author-avatar">
+                        <img src="{% static 'forum/images/default-avatar.png' %}"
+                             alt="{{ post.author.username }}" class="author-avatar"
+                             style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;">
                         <div class="author-details">
                             <a href="{% url 'forum:profile' post.author.username %}" class="author-name">
                                 {{ post.author.username }}

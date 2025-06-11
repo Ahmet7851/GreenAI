@@ -9,7 +9,9 @@
     <div class="profile-header">
         <div class="profile-header-content">
             <div class="profile-avatar">
-                <img src="{{ profile.avatar.url|default:'/static/forum/images/default-avatar.png' }}" alt="{{ profile.user.username }}">
+                <img src="{% static 'forum/images/default-avatar.png' %}"
+                     alt="{{ profile.user.username }}" class="profile-avatar-img"
+                     style="width: 120px; height: 120px; border-radius: 50%; object-fit: cover;">
                 {% if request.user == profile.user %}
                 <label class="upload-btn">
                     <i class="fas fa-camera"></i>
@@ -21,7 +23,7 @@
                 <div class="profile-title">
                     <h1>{{ profile.user.username }}</h1>
                     {% if request.user.is_authenticated and request.user == profile.user %}
-                    <button class="edit-profile-btn" id="editProfileBtn">
+                    <button class="edit-profile-btn modern-btn" id="editProfileBtn">
                         <i class="fas fa-edit"></i>
                         Profili Düzenle
                     </button>
@@ -385,9 +387,10 @@
             <div class="form-group">
                 <label class="form-label">Profil Fotoğrafı</label>
                 <div class="avatar-upload-preview">
-                    <img id="avatarPreview" src="{{ profile.avatar.url|default:'/static/forum/images/default-avatar.png' }}" alt="Avatar">
+                    <img id="avatarPreview" src="{% static 'forum/images/default-avatar.png' %}" alt="Avatar">
                     <label class="avatar-upload">
                         <i class="fas fa-camera"></i>
+                        <span>Fotoğraf Seç</span>
                         <input type="file" name="avatar" accept="image/*">
                     </label>
                 </div>
@@ -405,8 +408,11 @@
                 <textarea id="bio" name="bio" class="form-input form-textarea">{{ profile.bio }}</textarea>
             </div>
             <div class="modal-footer">
-                <button type="button" class="modal-btn cancel-btn close-modal">İptal</button>
-                <button type="submit" class="modal-btn save-btn">Kaydet</button>
+                <button type="button" class="btn btn-secondary close-modal">İptal</button>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save"></i>
+                    Kaydet
+                </button>
             </div>
         </form>
     </div>
@@ -555,6 +561,276 @@
 
     .new-topic-btn i {
         font-size: 0.9em;
+    }
+
+    /* Modern Buton Stilleri */
+    .modern-btn {
+        background: linear-gradient(135deg, #2ecc71, #27ae60);
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 8px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        text-decoration: none;
+        font-size: 14px;
+    }
+
+    .modern-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(46, 204, 113, 0.3);
+        color: white;
+        text-decoration: none;
+    }
+
+    .modern-btn:active {
+        transform: translateY(0);
+    }
+
+    /* Modal Stilleri */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(4px);
+    }
+
+    .modal-content {
+        background-color: white;
+        margin: 5% auto;
+        padding: 0;
+        border-radius: 12px;
+        width: 90%;
+        max-width: 500px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+        animation: modalSlideIn 0.3s ease;
+    }
+
+    @keyframes modalSlideIn {
+        from {
+            opacity: 0;
+            transform: translateY(-50px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .modal-header {
+        padding: 20px 24px;
+        border-bottom: 1px solid #e9ecef;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .modal-title {
+        margin: 0;
+        color: #2d3436;
+        font-size: 1.25rem;
+        font-weight: 600;
+    }
+
+    .close-modal {
+        background: none;
+        border: none;
+        font-size: 24px;
+        cursor: pointer;
+        color: #636e72;
+        padding: 0;
+        width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        transition: all 0.2s ease;
+    }
+
+    .close-modal:hover {
+        background-color: #f8f9fa;
+        color: #2d3436;
+    }
+
+    .modal form {
+        padding: 24px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-label {
+        display: block;
+        margin-bottom: 8px;
+        color: #2d3436;
+        font-weight: 500;
+        font-size: 14px;
+    }
+
+    .form-input {
+        width: 100%;
+        padding: 12px 16px;
+        border: 2px solid #e9ecef;
+        border-radius: 8px;
+        font-size: 14px;
+        transition: all 0.2s ease;
+        background-color: #fff;
+    }
+
+    .form-input:focus {
+        outline: none;
+        border-color: #2ecc71;
+        box-shadow: 0 0 0 3px rgba(46, 204, 113, 0.1);
+    }
+
+    .form-textarea {
+        min-height: 100px;
+        resize: vertical;
+        font-family: inherit;
+    }
+
+    .avatar-upload-preview {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+    }
+
+    .avatar-upload-preview img {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid #e9ecef;
+    }
+
+    .avatar-upload {
+        background: #f8f9fa;
+        border: 2px dashed #dee2e6;
+        border-radius: 8px;
+        padding: 16px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: #636e72;
+        font-size: 14px;
+    }
+
+    .avatar-upload:hover {
+        border-color: #2ecc71;
+        background-color: rgba(46, 204, 113, 0.05);
+        color: #2ecc71;
+    }
+
+    .avatar-upload input {
+        display: none;
+    }
+
+    .modal-footer {
+        padding: 20px 24px;
+        border-top: 1px solid #e9ecef;
+        display: flex;
+        justify-content: flex-end;
+        gap: 12px;
+        background-color: #f8f9fa;
+        border-radius: 0 0 12px 12px;
+    }
+
+    .btn {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 6px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 14px;
+        text-decoration: none;
+    }
+
+    .btn-primary {
+        background: linear-gradient(135deg, #2ecc71, #27ae60);
+        color: white;
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(46, 204, 113, 0.3);
+    }
+
+    .btn-secondary {
+        background: #6c757d;
+        color: white;
+    }
+
+    .btn-secondary:hover {
+        background: #5a6268;
+        transform: translateY(-1px);
+    }
+
+    /* Alert Mesajları */
+    .alert-message {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        padding: 16px 20px;
+        border-radius: 8px;
+        color: white;
+        font-weight: 500;
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        min-width: 300px;
+        animation: slideInRight 0.3s ease;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .alert-success {
+        background: linear-gradient(135deg, #2ecc71, #27ae60);
+    }
+
+    .alert-error {
+        background: linear-gradient(135deg, #e74c3c, #c0392b);
+    }
+
+    @keyframes slideInRight {
+        from {
+            opacity: 0;
+            transform: translateX(100%);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    /* Spinner animasyonu */
+    .fa-spin {
+        animation: fa-spin 1s infinite linear;
+    }
+
+    @keyframes fa-spin {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
     }
 </style>
 {% endblock %} 
